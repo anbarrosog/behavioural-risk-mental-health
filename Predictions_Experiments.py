@@ -1069,7 +1069,6 @@ from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 import matplotlib.pyplot as plt
 import numpy as np
 
-# Configura los escenarios y resultados multiclass
 model_names = ['Logistic Regression', 'Random Forest', 'XGBoost', 'Neural Net']
 results_mc = [results_logreg_mc, results_rf_mc, results_xgb_mc, results_nn_mc]
 scenarios = [
@@ -1079,7 +1078,6 @@ scenarios = [
     ('Day', 'Weighted')
 ]
 
-# Por cada escenario, elige el modelo con mayor Accuracy
 for group, ds in scenarios:
     key = f"{ds}_MC_LOPOCV_{group}"
     # Encuentra el mejor modelo por Accuracy
@@ -1192,7 +1190,6 @@ import numpy as np
 import pandas as pd
 import itertools
 
-# Modelos y resultados multiclass
 model_names = ['Logistic Regression', 'Random Forest', 'XGBoost', 'Neural Net']
 results_mc = [results_logreg_mc, results_rf_mc, results_xgb_mc, results_nn_mc]
 scenarios = [
@@ -1243,7 +1240,6 @@ for group, ds, df in scenarios:
 
 df_wilcoxon = pd.DataFrame(summary_rows)
 
-# Visualización: resalta los p-valores significativos
 def highlight_sig(val):
     color = 'background-color: lightcoral; font-weight: bold;' if isinstance(val, float) and val < 0.05 else ''
     return color
@@ -1274,13 +1270,12 @@ print(classification_report(y_true_mc, y_pred_mc, target_names=list(labels_map.v
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# ---- TUS DATOS: (se asume que results_*_bin y results_*_mc ya existen en memoria) ----
 
 model_names = ['Logistic Regression', 'Random Forest', 'XGBoost', 'Neural Net']
 group_labels = ['Turn', 'Day']
 ds_labels = ['Binary', 'Weighted']
 
-# ----- BINARIO -----
+# ----- BINARI -----
 results_bin = [results_logreg_bin, results_rf_bin, results_xgb_bin, results_nn_bin]
 rows = []
 for model, res_dict in zip(model_names, results_bin):
@@ -1313,7 +1308,7 @@ styled_bin = (
     .set_caption("Comparative Model Performance (Binary Classification)")
 )
 
-# ----- MULTICLASE -----
+# ----- MULTICLASS -----
 results_mc = [results_logreg_mc, results_rf_mc, results_xgb_mc, results_nn_mc]
 rows_mc = []
 for model, res_dict in zip(model_names, results_mc):
@@ -1351,7 +1346,6 @@ df_results_bin.to_csv("tabla_metricas_binarias.csv", index=False)
 df_results_mc.to_excel("tabla_metricas_multiclase.xlsx", index=False)
 df_results_mc.to_csv("tabla_metricas_multiclase.csv", index=False)
 
-# ---- Visualización rápida de comparación por métrica y modelo ----
 def plot_metric_bars(df, title, metrics=['Accuracy', 'Precision', 'Recall', 'F1-score'], hue='Model'):
     for metric in metrics:
         plt.figure(figsize=(10,5))
@@ -1369,9 +1363,6 @@ def plot_metric_bars(df, title, metrics=['Accuracy', 'Precision', 'Recall', 'F1-
 plot_metric_bars(df_results_bin, "Binary Classification")
 plot_metric_bars(df_results_mc, "Multiclass Classification", metrics=['Accuracy', 'Precision', 'Recall', 'F1-score'])
 
-print("¡Tablas y visualizaciones generadas y guardadas!")
-
-# ---- (Opcional) Análisis adicional: exportar resumen global ----
 summary = {
     "Best Accuracy (Binary)": df_results_bin.loc[df_results_bin['Accuracy'].idxmax()],
     "Best F1-score (Binary)": df_results_bin.loc[df_results_bin['F1-score'].idxmax()],
@@ -1380,8 +1371,6 @@ summary = {
 }
 for k, v in summary.items():
     print(f"\n{k}:\n{v}")
-
-# Listo para anexar a tu TFM
 
 
 # In[100]:
@@ -1433,6 +1422,3 @@ for ds in ds_labels:
             title = f"{model} - {ds} - {group}"
             fname = f"conf_matrix_{model.replace(' ','_')}_{ds}_{group}.png"
             save_conf_matrix(y_true, y_pred, labels=class_labels, title=title, fname=fname)
-
-print("Matrices de confusión generadas y guardadas para todos los modelos y configuraciones.")
-
